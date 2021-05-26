@@ -11,10 +11,10 @@ const SelectList = ({name, list, value, onChange, placeholder}) => {
     )
 }
 
-const FormSelectList = ({selectName, selectList, selectValue, onSelectChange, selectPlaceholder}) => {
+const FormSelectList = ({selectName, required, selectList, selectValue, onSelectChange, selectPlaceholder}) => {
     return (
         <FormItem>
-            <SelectList name={selectName} list={selectList} value={selectValue} onChange={onSelectChange} placeholder={selectPlaceholder}/>
+            <SelectList required={required} name={selectName} list={selectList} value={selectValue} onChange={onSelectChange} placeholder={selectPlaceholder}/>
         </FormItem>
     )
 }

@@ -1,42 +1,52 @@
-import { SplitCol, SplitLayout} from '@vkontakte/vkui';
 import "@vkontakte/vkui/dist/vkui.css";
+import React, { useEffect, useState } from 'react'
+import Auth from './Auth/Auth';
+import Content from './Content/Content';
 
-import SideMenu from './SideMenu/SideMenu'
-import React, { useState } from 'react'
-import ContentView from './ContentView/ContentView';
+async function getUserId(username, password) {
+    const response = await fetch(`${process.env.REACT_APP_API_HOST}/users`, {
+        method: 'POST',
+        body: JSON.stringify({
+            'username': username,
+            'password': password
+        })
+    })
+    const data = await response.json()
 
-const user = {
-    'avatarUrl': 'https://cdn.pixabay.com/photo/2015/02/28/15/48/monkey-653705_960_720.jpg',
-    'name': 'Андрей'
+    return data.userId
 }
 
-const panels = {
-    'readerList': 'Список читателей'
+async function getUser (userId) {
+    const response = await fetch(`${process.env.REACT_APP_API_HOST}/users/${userId}`)
+    const data = await response.json()
+    return data.user;
 }
 
 const App = () => {
-    const [activePanel, setActivePanel] = useState('readerList');
-    const [modal, setModal] = useState(null);
-    const [popout, setPopout] = useState(null);
+    const [userId, setUserId] = useState(localStorage.getItem('userId'));
+    const [user, setUser] = useState(null)
+
+    useEffect(() => {
+        if (!userId) setUser(null)
+        else getUser(userId).then(user => setUser(user))
+    }, [userId])
+
+    function onLogin (username, password) {
+        getUserId(username, password).then(userId => {
+            localStorage.setItem('userId', userId)
+            setUserId(userId)
+        })
+    }
+
+    function onLogout() {
+        localStorage.removeItem('userId');
+        setUser(null)
+        setUserId(null);
+    }
 
     return (
-        <SplitLayout style={{justifyContent: 'center'}}>
-            <SplitCol fixed width='250px' maxWidth='250px'>
-                <SideMenu user={user} panels={panels} activePanel={activePanel} onClick={setActivePanel}/>
-            </SplitCol>
-            <SplitCol
-                animate={false}
-                spaced={true}
-                width='560px'
-                maxWidth='900px'
-            >
-                <ContentView
-                    activePanel={activePanel}
-                    modal={modal} setModal={setModal}
-                    popout={popout} setPopout={setPopout}/>
-            </SplitCol>
-        </SplitLayout>
-    );
+        user ? <Content onLogout={onLogout} user={user}/> : <Auth onButtonClick={onLogin} style={{justifyContent: 'center'}}/>
+    )
   }
   
   export default App
