@@ -9,14 +9,16 @@ const AdminReaders = props => {
     const [loading, setLoading] = useState(true)
     const [body, setBody] = useState({})
     const [readerList, setReaderList] = useState(null)
+    const [counter, setCounter] = useState(null)
 
     useEffect(() => {
         fetch(`${process.env.REACT_APP_API_HOST}/readers/query`, {
             method: 'POST', body: JSON.stringify(body)
         })
         .then(response => response.json())
-        .then(({data}) => {
-            setReaderList(<ReaderListFromCells readerList={data} openReaderInfo={props.openReaderInfo}/>)
+        .then((data) => {
+            setCounter(data.count)
+            setReaderList(<ReaderListFromCells readerList={data.data} openReaderInfo={props.openReaderInfo}/>)
             setPageContent(<ReaderList setBody={setBody}/>)
             setLoading(false)
         })
@@ -31,7 +33,7 @@ const AdminReaders = props => {
     return (
         <Panel id={props.id}>
             <PanelHeader left={<PanelHeaderButton onClick={props.addReaderButtonClick}>Добавить читателя</PanelHeaderButton>}>
-                Список читателей
+                Найдено читателей: {counter}
             </PanelHeader>
             <Group>
                 {loading ? <PanelSpinner height={96} size='large'/> : pageContent}

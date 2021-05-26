@@ -9,8 +9,8 @@ const SideMenu = props => {
 
     return (
         <Panel>
-            <Group separator='auto'>
-                <SideUserInfo user={props.user} onLogout={props.onLogout}/>
+            <Group>
+                <SideUserInfo user={props.user} openUserInfo={props.openUserInfo} onLogout={props.onLogout}/>
                 <SideMenuButtons activePanel={props.activePanel} onClick={props.onClick} userIsAdmin={userIsAdmin}/>
             </Group>
         </Panel>

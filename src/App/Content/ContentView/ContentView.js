@@ -12,13 +12,16 @@ const ContentView = props => {
                 user={props.user}
                 id='publicContent'
                 activePanel={props.activePanel}
-
+                activeModal={props.activeModal}
+                setActiveModal={props.setActiveModal}
             />
             {userIsAdmin ?
                 <AdminContent
                     user={props.user}
                     id='adminContent'
                     activePanel={props.activePanel}
+                    activeModal={props.activeModal}
+                    setActiveModal={props.setActiveModal}
                 /> : null
             }
         </Root>

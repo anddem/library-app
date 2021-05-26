@@ -1,5 +1,5 @@
 import { Icon20ChevronRightOutline } from '@vkontakte/icons';
-import { CellButton, Group, Header, ModalPage, ModalPageHeader, PanelHeaderBack, PanelHeaderButton, SimpleCell } from '@vkontakte/vkui';
+import { CellButton, Group, Header, ModalPage, ModalPageHeader, PanelHeaderBack, PanelHeaderButton, PanelHeaderClose, PanelHeaderEdit, SimpleCell } from '@vkontakte/vkui';
 import React, { useState, useEffect } from 'react';
 import { EditReaderInfo } from './EditReaderInfo';
 
@@ -41,18 +41,18 @@ const InformationCell = (props) => (
             {props.text}
         </SimpleCell> : ''
 );
-const ReaderRoleInformation = ({ reader, editReaderInfo }) => (
+export const ReaderRoleInformation = ({canEditInfo, reader, editReaderInfo }) => (
     <Group mode='card'>
         <InformationCell disabled indicator={reader.Role} text='Должность' />
         <InformationCell disabled indicator={reader.Faculty} text='Факультет' />
         <InformationCell disabled indicator={reader.Department} text='Кафедра' />
         <InformationCell disabled indicator={reader.Group} text='Группа' />
-        <CellButton onClick={editReaderInfo}>Редактировать информацию</CellButton>
+        {canEditInfo ? <CellButton onClick={editReaderInfo}>Редактировать информацию</CellButton> : null}
     </Group>
 );
-const ReaderModalPageContent = props => (
+export const ReaderModalPageContent = props => (
     <Group separator>
-        <ReaderRoleInformation reader={props.reader} editReaderInfo={props.editReaderInfo}/>
+        <ReaderRoleInformation canEditInfo={props.canEditInfo} reader={props.reader} editReaderInfo={props.editReaderInfo}/>
         <ReaderStatistics reader={props.reader} setActiveModal={props.setActiveModal} />
     </Group>
 );
@@ -66,6 +66,7 @@ function deleteReader (readerId, setActiveModal) {
 const ReaderModalPage = props => {
     const [reader, setReader] = useState(null);
     const [editInfo, setEditInfo] = useState(false);
+    const [confirmDelete, setConfirmDelete] = useState(false)
 
     useEffect(() => {
         fetch(process.env.REACT_APP_API_HOST + `/readers/${props.readerId}`)
@@ -83,7 +84,12 @@ const ReaderModalPage = props => {
                 }
                 right={
                     editInfo ?
-                    <PanelHeaderButton onClick={() => deleteReader(reader.Id, props.setActiveModal)}>Удалить</PanelHeaderButton> :
+                        confirmDelete ? 
+                        <>
+                            <PanelHeaderClose onClick={() => setConfirmDelete(false)}/>
+                            <PanelHeaderEdit isActive onClick={() => deleteReader(reader.Id, props.setActiveModal)}/>
+                        </> :
+                        <PanelHeaderButton onClick={() => setConfirmDelete(true)}>Удалить</PanelHeaderButton> :
                     ''
                 }
                 >
@@ -95,7 +101,7 @@ const ReaderModalPage = props => {
             {reader ? 
                 editInfo ?
                 <EditReaderInfo reader={reader}/> :
-                <ReaderModalPageContent reader={reader} editReaderInfo={() => setEditInfo(true)} setActiveModal={props.setActiveModal} /> :
+                <ReaderModalPageContent canEditInfo={true} reader={reader} editReaderInfo={() => setEditInfo(true)} setActiveModal={props.setActiveModal} /> :
             ''}
         </ModalPage>
     );

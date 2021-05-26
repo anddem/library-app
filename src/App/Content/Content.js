@@ -3,14 +3,21 @@ import React, { useState } from 'react'
 import ContentView from './ContentView/ContentView'
 import SideMenu from './SideMenu/SideMenu'
 
+
+
 const Content = props => {
     const [activeView, setActiveView] = useState('publicContent')
     const [activePanel, setActivePanel] = useState('publicBooks')
+    const [activeModal, setActiveModal] = useState(null)
 
     const go = e => {
         setActiveView(e.currentTarget.dataset.view)
         setActivePanel(e.currentTarget.dataset.panel)
     }
+
+    // function openUserInfo () {
+    //     setActiveModal('userInformation')
+    // }
 
     return (
         <SplitLayout style={{justifyContent: 'center'}}>
@@ -28,7 +35,7 @@ const Content = props => {
                 width='560px'
                 maxWidth='900px'
             >
-                <ContentView activePanel={activePanel} activeView={activeView} user={props.user} setActivePanel={setActivePanel}/>
+                <ContentView activeModal={activeModal} setActiveModal={setActiveModal} activePanel={activePanel} activeView={activeView} user={props.user} setActivePanel={setActivePanel}/>
             </SplitCol>
         </SplitLayout>
     )
