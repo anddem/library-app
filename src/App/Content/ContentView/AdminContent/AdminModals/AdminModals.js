@@ -5,7 +5,7 @@ import IssuedInfractionsModalPage from './InfractionsModalPages/IssuedInfraction
 import IssuedBooksModalPage from './BooksModalPages/IssuedBooksModalPage';
 import LostBooksModalPage from './BooksModalPages/LostBooksList';
 import ActiveInfractionsModalPage from './InfractionsModalPages/ActiveInfractionsModalPage';
-import AddReaderModalPage from './AddReaderModalPage';
+import AddReaderModalPage from './AddReaderModalPage/AddReaderModalPage';
 
 const AdminModals = props => {
     return (

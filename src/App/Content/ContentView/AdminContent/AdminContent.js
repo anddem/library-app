@@ -1,7 +1,5 @@
 import { View } from '@vkontakte/vkui'
 import React, { useState } from 'react'
-import AddReaderPanel from './AddReaderPanel'
-import AddBookPanel from './AddBookPanel'
 import AddLibraryPointPanel from './AddLibraryPointPanel'
 import AdminReaders from './AdminReaders/AdminReaders'
 import AdminModals from './AdminModals/AdminModals'
@@ -18,9 +16,7 @@ const AdminContent = props => {
 
     return (
         <View id={props.id} activePanel={props.activePanel} modal={modals}>
-            <AddReaderPanel id='adminAddReader'/>
-            <AddBookPanel id='adminAddBook'/>
-            <AddLibraryPointPanel id='adminAddLibraryPoint'/>
+            <AddLibraryPointPanel id='adminLibraryPoints'/>
             <AdminReaders id='adminReaders' openReaderInfo={openReaderInfo} addReaderButtonClick={() => setActiveModal('addReader')}/>
         </View>
     )

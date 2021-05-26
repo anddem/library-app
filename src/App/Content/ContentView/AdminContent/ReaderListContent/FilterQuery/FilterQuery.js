@@ -2,7 +2,7 @@ import { FormLayout } from '@vkontakte/vkui'
 import React, {useState} from 'react'
 import UniversityInfoSelect from './Selects/UniversityInfoSelect'
 import PersonalInfoInput from './Inputs/PersonalInfoInput'
-import FormButton from '../../../../CustomComponents/FormComponents/FormButton'
+import FormButton from '../../../../../CustomComponents/FormComponents/FormButton'
 
 const FilterQuery = props => {
     const [firstName, setFirstName] = useState('')

@@ -3,10 +3,8 @@ import React from 'react'
 import SideMenuButton from '../SideMenuButtons/SideMenuButton'
 
 const adminPanels = {
-    'adminReaders': 'Список читателей',
-    "adminAddReader": 'Зарегистрировать читателя',
-    "adminAddBook": 'Добавить книгу',
-    'adminAddLibraryPoint': 'Добавить библиотечный пункт',
+    'adminReaders': 'Читатели',
+    'adminLibraryPoints': 'Библиотечные пункты',
 }
 
 const AdminSideButtons = props => {

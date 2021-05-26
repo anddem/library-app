@@ -1,5 +1,5 @@
 import { Icon36ChevronRightOutline } from '@vkontakte/icons'
-import { Panel, PanelHeader, Group, SimpleCell, InfoRow, PanelSpinner, Header, Title } from '@vkontakte/vkui'
+import { Panel, PanelHeader, Group, SimpleCell, InfoRow, PanelSpinner, Header, Text, PanelHeaderButton } from '@vkontakte/vkui'
 import React, { useEffect, useState } from 'react'
 import ErrorPlaceholder from '../../../../CustomComponents/Placeholders/ErrorPlaceholder'
 
@@ -10,8 +10,8 @@ const Book = ({book, onClick}) => {
                 indicator={<Icon36ChevronRightOutline/>}
                 multiline
                 onClick={() => onClick(book)}
-                description={`Доступно: ${book.Available}`}>
-                <InfoRow header={book.Authors}><Title weight='semibold' level='3'>{book.Title}</Title></InfoRow>
+                description={`Доступно: ${book.Available ?? 0}`}>
+                <InfoRow header={book.Authors}><Text weight='semibold'>{book.Title}</Text ></InfoRow>
             </SimpleCell>
         </Group>
     )
@@ -34,6 +34,7 @@ const PublicBooksList = (props) => {
 const Books = props => {
     const [page, setPage] = useState('')
     const [loading, setLoading] = useState(true)
+    const userIsAdministrator = props.user.Role === 'Администратор'
 
     useEffect(() => {
         fetch(process.env.REACT_APP_API_HOST + '/books')
@@ -47,11 +48,12 @@ const Books = props => {
             setPage(<ErrorPlaceholder/>)
             setLoading(false)
         })
-    }, [props.openBookInfo])
+        // eslint-disable-next-line
+    }, [])
 
     return (
         <Panel id={props.id}>
-            <PanelHeader>Список книг</PanelHeader>
+            <PanelHeader left={userIsAdministrator ? <PanelHeaderButton onClick={props.addBookButtonClick}>Добавить книгу</PanelHeaderButton> : null}>Список книг</PanelHeader>
                 {loading ? <PanelSpinner height={96}/> : page}
         </Panel>
     )

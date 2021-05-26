@@ -1,6 +1,6 @@
 import { FormLayoutGroup} from '@vkontakte/vkui';
 import React from 'react';
-import FormInput from '../../../../../CustomComponents/FormComponents/FormInput';
+import FormInput from '../../../../../../CustomComponents/FormComponents/FormInput';
 
 const PersonalInfoInput = (props) => {
     return (

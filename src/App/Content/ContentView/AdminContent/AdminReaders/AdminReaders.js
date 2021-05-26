@@ -1,6 +1,6 @@
 import { Group, Headline, Panel, PanelHeader, PanelHeaderButton, PanelSpinner, SimpleCell} from '@vkontakte/vkui'
 import React, { useEffect, useState } from 'react'
-import ReaderList from '../../ReaderListContent/ReaderList'
+import ReaderList from '../ReaderListContent/ReaderList'
 import ErrorPlaceholder from '../../../../CustomComponents/Placeholders/ErrorPlaceholder'
 import { Icon28ChevronRightOutline } from '@vkontakte/icons'
 
@@ -25,7 +25,8 @@ const AdminReaders = props => {
             setPageContent(<ErrorPlaceholder/>)
             setLoading(false)
         })
-    }, [body, props.openReaderInfo])
+        // eslint-disable-next-line
+    }, [body])
 
     return (
         <Panel id={props.id}>

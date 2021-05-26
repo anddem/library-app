@@ -1,7 +1,7 @@
 import React from 'react';
 import { Group, SimpleCell, InfoRow } from '@vkontakte/vkui';
 
-function TimestampToDate (timestamp) {
+export function TimestampToDate (timestamp) {
     let date = new Date(timestamp * 1000)
     return `${date.getDate()}.${('0' + (date.getMonth() + 1)).slice(-2)}.${date.getFullYear()}`
 }

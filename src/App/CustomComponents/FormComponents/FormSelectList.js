@@ -1,22 +1,19 @@
 import React from 'react'
 import {NativeSelect, FormItem} from '@vkontakte/vkui'
 
-const Option = ({value, text}) => <option value={value}>{text}</option>
-
-const SelectList = ({name, list, value, onChange, placeholder}) => {
-    return (
-        <NativeSelect placeholder={placeholder} name={name} value={value} onChange={({target}) => onChange(target.value)}>
-            {list.map(item => <Option value={item} text={item} key={item}/>)}
+const FormSelectList = props => (
+    <FormItem>
+        <NativeSelect
+            required={props.required}
+            status={props.status}
+            placeholder={props.placeholder}
+            name={props.name}
+            value={props.value}
+            onChange={({ target }) => props.onChange(target.value)}
+        >
+            {props.values.map(value => <option key={value} value={value}>{value}</option>)}
         </NativeSelect>
-    )
-}
-
-const FormSelectList = ({selectName, required, selectList, selectValue, onSelectChange, selectPlaceholder}) => {
-    return (
-        <FormItem>
-            <SelectList required={required} name={selectName} list={selectList} value={selectValue} onChange={onSelectChange} placeholder={selectPlaceholder}/>
-        </FormItem>
-    )
-}
+    </FormItem>
+)
 
 export default FormSelectList

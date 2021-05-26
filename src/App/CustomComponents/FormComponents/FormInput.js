@@ -1,12 +1,20 @@
 import React from 'react';
 import {FormItem, Input} from '@vkontakte/vkui'
 
-const FormInput = ({name, value, placeholder, onChange, type='text', required}) => {
-    return (
-        <FormItem>
-            <Input required={required} type={type} name={name} value={value} placeholder={placeholder} onChange={({target}) => onChange(target.value)}/>
-        </FormItem>
-    )
-}
+const FormInput = ({name, status, value, 
+                    placeholder, onChange,
+                    type='text', required}) => (
+    <FormItem>
+        <Input 
+            name={name}
+            status={status} 
+            value={value}
+            placeholder={placeholder} 
+            onChange={({ target }) => onChange(target.value)} 
+            type={type} 
+            required={required} 
+        />
+    </FormItem>
+)
 
 export default FormInput
