@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 
 const RenderPointsList = props => {
     return (
-        <Group>
+        <Group mode='plains'>
         {props.data.map(
             point => <SimpleCell disabled={props.disabled} onClick={() => props.openPointInfo(point)} indicator={point.Can_issue_books ? 'Может выдавать книги' : ''} key={point.Name}>{point.Name}</SimpleCell>)}
         </Group>
@@ -25,7 +25,10 @@ const LibraryPoints = props => {
             <PanelHeader >
                 Библиотечные пункты
             </PanelHeader>
-            {points ? <RenderPointsList disabled={!userIsAdmin} openPointInfo={props.openPointInfo} data={points}/> : null}
+            <Group>
+                {userIsAdmin ? <SimpleCell onClick={props.openStatistics}>Статистика по библиотеке</SimpleCell> : null}
+                {points ? <RenderPointsList disabled={!userIsAdmin} openPointInfo={props.openPointInfo} data={points}/> : null}
+            </Group>
         </Panel>
     )
 }

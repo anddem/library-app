@@ -8,7 +8,8 @@ const UniversityInfoSelect = (props) => {
         <FormLayoutGroup>
             <RoleSelect role={props.role} setRole={props.setRole}/>
             <StructureSelect 
-                faculty={props.faculty} setFaculty={props.setFaculty}
+                mode={props.universityMode} 
+                faculty={props.faculty} setFaculty={props.setFaculty} facultyOnly={props.facultyOnly}
                 department={props.department} setDepartment={props.setDepartment}
                 group={props.group} setGroup={props.setGroup}
             />

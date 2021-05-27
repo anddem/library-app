@@ -1,6 +1,7 @@
 import { Icon36ChevronRightOutline } from '@vkontakte/icons'
-import { Panel, PanelHeader, Group, SimpleCell, InfoRow, PanelSpinner, Header, Text, PanelHeaderButton } from '@vkontakte/vkui'
+import { Panel, PanelHeader, Group, SimpleCell, InfoRow, PanelSpinner, Header, Text, PanelHeaderButton, FormLayout, FormLayoutGroup } from '@vkontakte/vkui'
 import React, { useEffect, useState } from 'react'
+import FormButton from '../../../../CustomComponents/FormComponents/FormButton'
 import ErrorPlaceholder from '../../../../CustomComponents/Placeholders/ErrorPlaceholder'
 
 const Book = ({book, onClick}) => {
@@ -17,19 +18,23 @@ const Book = ({book, onClick}) => {
     )
 }
 
-const PublicRenderBooks = ({books, onClick}) => {
-    return (
-        books ? books.map((book, i) => <Book key={i} book={book} onClick={onClick}/>) : ''
-    )
-}
+const PublicRenderBooks = ({header, books, onClick}) => (
+    <Group header={header}>
+        {books ? books.map((book, i) => <Book key={i} book={book} onClick={onClick} />) : ''}
+    </Group>
+)
 
-const PublicBooksList = (props) => {
-    return (
-        <Group header={<Header>Книг найдено: {props.count}</Header>}>
-            <PublicRenderBooks books={props.books} onClick={props.onClick}/>
-        </Group>
-    )
-}
+const PublicBooksList = (props) => (
+    <Group>
+        <FormLayout>
+            <FormLayoutGroup mode='horizontal'>
+                <FormButton size='l' stretched text='Топ книг' onClick={() => props.setActiveModal('booksOrdersTop')}/>
+                <FormButton size='l' stretched text='Заказы за период' onClick={() => props.setActiveModal('booksOrdersPeriod')}/>
+            </FormLayoutGroup>
+        </FormLayout>
+        <PublicRenderBooks books={props.books} onClick={props.onClick} header={<Header>Книг найдено: {props.count}</Header>} />
+    </Group>
+)
 
 const Books = props => {
     const [page, setPage] = useState('')
@@ -40,7 +45,7 @@ const Books = props => {
         fetch(process.env.REACT_APP_API_HOST + '/books')
         .then(response => response.json())
         .then(data => {
-            setPage(<PublicBooksList count={data.count} books={data.data} onClick={props.openBookInfo}/>)
+            setPage(<PublicBooksList setActiveModal={props.setActiveModal} count={data.count} books={data.data} onClick={props.openBookInfo}/>)
             setLoading(false)
         })
         .catch(error => {

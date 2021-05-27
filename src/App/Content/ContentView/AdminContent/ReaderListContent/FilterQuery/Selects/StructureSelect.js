@@ -1,3 +1,4 @@
+import { FormLayoutGroup } from '@vkontakte/vkui'
 import React, { useEffect, useState } from 'react'
 import FormSelectList from '../../../../../../CustomComponents/FormComponents/FormSelectList'
 
@@ -14,6 +15,7 @@ const StructureSelect = (props) => {
 
     function onFacultyChange (faculty) {
         props.setFaculty(faculty)
+        if (props.facultyOnly) return
         onDepartmentChange("")
     }
     
@@ -24,7 +26,7 @@ const StructureSelect = (props) => {
     
 
     return (
-        <>
+        <FormLayoutGroup mode={props.mode}>
             <FormSelectList
                 required={props.required}
                 status={props.status}
@@ -35,7 +37,7 @@ const StructureSelect = (props) => {
                 placeholder="Выберите факультет"
             />
             {
-                props.faculty ?
+                !props.facultyOnly && props.faculty ?
                 <FormSelectList
                     required={props.required}
                     status={props.status}
@@ -58,7 +60,7 @@ const StructureSelect = (props) => {
                     placeholder='Выберите группу'
                 /> : ''
             }
-        </>
+        </FormLayoutGroup>
     )
 }
 

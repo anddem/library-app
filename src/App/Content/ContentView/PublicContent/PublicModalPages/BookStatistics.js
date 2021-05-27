@@ -3,6 +3,7 @@ import { Group, SimpleCell, Header, InfoRow, Placeholder } from '@vkontakte/vkui
 import React, { useEffect, useState } from 'react';
 import { EditBookInfoForm } from './createBook';
 import ErrorPlaceholder from '../../../../CustomComponents/Placeholders/ErrorPlaceholder';
+import { Icon28ErrorOutline } from '@vkontakte/icons';
 
 const BookStatistics = ({ book }) => {
     const [issueLog, setIssueLog] = useState(null);
@@ -19,6 +20,7 @@ const BookStatistics = ({ book }) => {
                     log => <SimpleCell
                         multiline
                         description={`Должен вернуть ${TimestampToDate(log.Return_date)}`}
+                        indicator={new Date(log.Return_date*1000) < new Date() ? <Icon28ErrorOutline/> : null}
                     >
                         <InfoRow header={`ID читателя: ${log.Id}`}>
                             {log.Surname} {log.Name}

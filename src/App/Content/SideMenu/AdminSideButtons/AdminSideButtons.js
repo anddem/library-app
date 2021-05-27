@@ -4,6 +4,7 @@ import SideMenuButton from '../SideMenuButtons/SideMenuButton'
 
 const adminPanels = {
     'adminReaders': 'Читатели',
+    'adminDebtors': 'Задолжники'
 }
 
 const AdminSideButtons = props => (

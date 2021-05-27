@@ -1,7 +1,7 @@
 import { Group, InfoRow, SimpleCell } from '@vkontakte/vkui';
 import React from 'react';
 
-const Book = ({ book, indicator }) => (
+export const Book = ({ book, indicator }) => (
     <Group mode='card'>
         <SimpleCell multiline disabled indicator={indicator}>
             <InfoRow header='Авторы' style={{ marginBottom: 10 }}>{book.Authors}</InfoRow>

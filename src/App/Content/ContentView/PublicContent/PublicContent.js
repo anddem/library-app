@@ -35,12 +35,14 @@ const PublicContent = props => {
     return (
         <View activePanel={props.activePanel} id={props.id} modal={modal}>
             <Books
+            setActiveModal={props.setActiveModal}
                 id='publicBooks'
                 openBookInfo={openBookInfo}
                 user={props.user}
                 addBookButtonClick={() => props.setActiveModal('addBook')}
             />
             <LibraryPoints
+                openStatistics={() => props.setActiveModal('statistics')}
                 id='publicLibraryPoints'
                 user={props.user}
                 openPointInfo={openPointInfo}

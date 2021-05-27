@@ -43,16 +43,16 @@ const AdminReaders = props => {
     )
 }
 
-const ReaderListFromCells = ({readerList, openReaderInfo}) => {
+export const ReaderListFromCells = ({readerList, openReaderInfo}) => {
     return (
-        readerList.map(reader => <ReaderCell key={reader.id} reader={reader} openReaderInfo={openReaderInfo}/>)
+        readerList.map(reader => <ReaderCell key={reader.Id} reader={reader} openReaderInfo={openReaderInfo}/>)
     )
 }
 
 const ReaderCell = ({reader, openReaderInfo}) => {
     return (
-        <SimpleCell after={<Icon28ChevronRightOutline/>} data-panel='publicContent' onClick={() => openReaderInfo(reader.id)}>
-            <Headline weight='medium'>{`${reader['Фамилия']} ${reader['Имя']} ${reader['Отчество'] ? reader['Отчество'] : ''}`}</Headline>
+        <SimpleCell after={<Icon28ChevronRightOutline/>} onClick={() => openReaderInfo(reader.Id)}>
+            <Headline weight='medium'>{`${reader['Surname']} ${reader['Name']} ${reader['Mid_name'] ?? ''}`}</Headline>
         </SimpleCell>
     )
 }

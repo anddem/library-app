@@ -7,7 +7,7 @@ import FormButton from '../../../../../CustomComponents/FormComponents/FormButto
 const FilterQuery = props => {
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
-    const [surname, setSurname] = useState('')
+    const [middleName, setMiddleName] = useState('')
 
     const [role, setRole] = useState('')
     const [faculty, setFaculty] = useState('')
@@ -19,13 +19,13 @@ const FilterQuery = props => {
 
         let body = {}
 
-        if (firstName) body['Имя'] = firstName
-        if (lastName) body['Фамилия'] = lastName
-        if (surname) body['Отчество'] = surname
-        if (role) body['Роль'] = role
-        if (faculty) body['Факультет'] = faculty
-        if (department) body['Кафедра'] = department
-        if (group) body['Группа'] = group
+        if (firstName) body['firstName'] = firstName
+        if (lastName) body['lastName'] = lastName
+        if (middleName) body['middleName'] = middleName
+        if (role) body['role'] = role
+        if (faculty) body['faculty'] = faculty
+        if (department) body['department'] = department
+        if (group) body['group'] = group
         
         props.setBody(body)
     }
@@ -35,7 +35,7 @@ const FilterQuery = props => {
                 <PersonalInfoInput
                     firstName={firstName} setFirstName={setFirstName}
                     lastName={lastName} setLastName={setLastName}
-                    surname={surname} setSurname={setSurname}
+                    surname={middleName} setSurname={setMiddleName}
                 />
                 <UniversityInfoSelect
                     role={role} setRole={setRole}
