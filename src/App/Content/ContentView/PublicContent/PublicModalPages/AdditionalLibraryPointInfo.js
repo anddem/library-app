@@ -1,6 +1,6 @@
 import { ModalPage, ModalPageHeader, Group, SimpleCell, InfoRow } from '@vkontakte/vkui';
 import React, { useEffect, useState } from 'react';
-import {Book} from '../../../ModalPages/BooksModalPages/RenderBooksList';
+import { Book } from '../../../ModalPages/BooksModalPages/RenderBooksList';
 
 const ReadersList = ({ readers }) => {
     return (
@@ -39,8 +39,8 @@ export const AdditionalLibraryPointInfo = props => {
         <ModalPage id={props.id} onClose={() => props.setActiveModal(null)}>
             <ModalPageHeader>{props.point.Name}</ModalPageHeader>
                 <Group>
-                    {readers ? <SimpleCell onClick={() => setCurrentList(<ReadersList readers={readers.data} />)} indicator={readers.count}>Открыть список читателей</SimpleCell> : null}
-                    {ordersTop ? <SimpleCell onClick={() => setCurrentList(<BooksList books={ordersTop.data}/>)}  indicator={ordersTop.count}>Посмотреть топ заказов</SimpleCell> : null}
+                    {readers ? <SimpleCell disabled={readers.count === 0} onClick={() => setCurrentList(<ReadersList readers={readers.data} />)} indicator={readers.count}>Открыть список читателей</SimpleCell> : null}
+                    {ordersTop ? <SimpleCell disabled={ordersTop.count === 0} onClick={() => setCurrentList(<BooksList books={ordersTop.data}/>)}  indicator={ordersTop.count}>Посмотреть топ заказов</SimpleCell> : null}
                 </Group>
                 {currentList ?? null}
         </ModalPage>

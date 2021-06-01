@@ -1,8 +1,7 @@
-import { Icon36ChevronRightOutline } from '@vkontakte/icons'
-import { Panel, PanelHeader, Group, SimpleCell, InfoRow, PanelSpinner, Header, Text, PanelHeaderButton, FormLayout, FormLayoutGroup } from '@vkontakte/vkui'
+import { Icon36ChevronRightOutline, Icon56ErrorOutline } from '@vkontakte/icons'
+import { Panel, PanelHeader, Group, SimpleCell, InfoRow, PanelSpinner, Header, Text, PanelHeaderButton, FormLayout, FormLayoutGroup, Placeholder } from '@vkontakte/vkui'
 import React, { useEffect, useState } from 'react'
 import FormButton from '../../../../CustomComponents/FormComponents/FormButton'
-import ErrorPlaceholder from '../../../../CustomComponents/Placeholders/ErrorPlaceholder'
 
 const Book = ({book, onClick}) => {
     return (
@@ -19,20 +18,20 @@ const Book = ({book, onClick}) => {
 }
 
 const PublicRenderBooks = ({header, books, onClick}) => (
-    <Group header={header}>
+    <Group header={header} mode='plain'>
         {books ? books.map((book, i) => <Book key={i} book={book} onClick={onClick} />) : ''}
     </Group>
 )
 
 const PublicBooksList = (props) => (
-    <Group>
+    <Group mode='plain'>
         <FormLayout>
             <FormLayoutGroup mode='horizontal'>
                 <FormButton size='l' stretched text='Топ книг' onClick={() => props.setActiveModal('booksOrdersTop')}/>
                 <FormButton size='l' stretched text='Заказы за период' onClick={() => props.setActiveModal('booksOrdersPeriod')}/>
             </FormLayoutGroup>
         </FormLayout>
-        <PublicRenderBooks books={props.books} onClick={props.onClick} header={<Header>Книг найдено: {props.count}</Header>} />
+        <PublicRenderBooks books={props.books} onClick={props.onClick} header={<Header>Найдено: {props.count}</Header>} />
     </Group>
 )
 
@@ -50,7 +49,7 @@ const Books = props => {
         })
         .catch(error => {
             console.error(error)
-            setPage(<ErrorPlaceholder/>)
+            setPage(<Placeholder header='Ошибка при получении данных' icon={<Icon56ErrorOutline/>}/>)
             setLoading(false)
         })
         // eslint-disable-next-line
@@ -59,7 +58,9 @@ const Books = props => {
     return (
         <Panel id={props.id}>
             <PanelHeader left={userIsAdministrator ? <PanelHeaderButton onClick={props.addBookButtonClick}>Добавить книгу</PanelHeaderButton> : null}>Список книг</PanelHeader>
-                {loading ? <PanelSpinner height={96}/> : page}
+            <Group>
+                {loading ? <PanelSpinner height={96} size='large'/> : page}
+            </Group>
         </Panel>
     )
 }

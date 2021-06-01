@@ -3,50 +3,40 @@ import React, { useEffect, useState } from 'react'
 import Auth from './Auth/Auth';
 import Content from './Content/Content';
 
-async function getUserId(username, password) {
-    const response = await fetch(`${process.env.REACT_APP_API_HOST}/users`, {
+async function authUser(username, password) {
+    const response = await fetch(process.env.REACT_APP_API_HOST + '/users/auth', {
         method: 'POST',
         body: JSON.stringify({
             'username': username,
             'password': password
         })
     })
-    const data = await response.json()
 
-    return data.userId
-}
-
-async function getUser (userId) {
-    const response = await fetch(`${process.env.REACT_APP_API_HOST}/users/${userId}`)
     const data = await response.json()
-    return data.user;
+    
+    return data.data[0]
 }
 
 const App = () => {
-    const [userId, setUserId] = useState(localStorage.getItem('userId'));
     const [user, setUser] = useState(null)
 
     useEffect(() => {
-        if (!userId) setUser(null)
-        else getUser(userId).then(user => setUser(user))
-    }, [userId])
-
-    function onLogin (username, password) {
-        getUserId(username, password).then(userId => {
-            localStorage.setItem('userId', userId)
-            setUserId(userId)
+        fetch(process.env.REACT_APP_API_HOST + '/users/auth', {method: 'GET'})
+        .then(response => response.json())
+        .then(({data}) => {
+            if (data) setUser(data)
         })
-    }
+    }, [user])
 
-    function onLogout() {
-        localStorage.removeItem('userId');
-        setUser(null)
-        setUserId(null);
-    }
+    const onLogin = (username, password) => authUser(username, password).then(user => setUser(user))
+
+    const onLogout = () => setUser(null)
 
     return (
-        user ? <Content onLogout={onLogout} user={user}/> : <Auth onButtonClick={onLogin} style={{justifyContent: 'center'}}/>
+        user
+        ? <Content onLogout={onLogout} user={user}/>
+        : <Auth onButtonClick={onLogin} style={{justifyContent: 'center'}}/>
     )
-  }
-  
-  export default App
+}
+
+export default App

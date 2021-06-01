@@ -1,15 +1,12 @@
-import { Group, Headline, Panel, PanelHeader, PanelHeaderButton, PanelSpinner, SimpleCell} from '@vkontakte/vkui'
+import { Group, Header, Headline, Panel, PanelHeader, PanelHeaderButton, PanelSpinner, Placeholder, SimpleCell} from '@vkontakte/vkui'
 import React, { useEffect, useState } from 'react'
-import ReaderList from '../ReaderListContent/ReaderList'
-import ErrorPlaceholder from '../../../../CustomComponents/Placeholders/ErrorPlaceholder'
-import { Icon28ChevronRightOutline } from '@vkontakte/icons'
+import { Icon28ChevronRightOutline, Icon56ErrorOutline } from '@vkontakte/icons'
+import FilterQuery from '../ReaderListContent/FilterQuery/FilterQuery'
 
 const AdminReaders = props => {
-    const [pageContent, setPageContent] = useState('')
     const [loading, setLoading] = useState(true)
     const [body, setBody] = useState({})
     const [readerList, setReaderList] = useState(null)
-    const [counter, setCounter] = useState(null)
 
     useEffect(() => {
         fetch(`${process.env.REACT_APP_API_HOST}/readers/query`, {
@@ -17,14 +14,11 @@ const AdminReaders = props => {
         })
         .then(response => response.json())
         .then((data) => {
-            setCounter(data.count)
-            setReaderList(<ReaderListFromCells readerList={data.data} openReaderInfo={props.openReaderInfo}/>)
-            setPageContent(<ReaderList setBody={setBody}/>)
+            setReaderList(<ReaderListFromCells readerList={data} openReaderInfo={props.openReaderInfo}/>)
             setLoading(false)
         })
         .catch(error => {
             console.error(error)
-            setPageContent(<ErrorPlaceholder/>)
             setLoading(false)
         })
         // eslint-disable-next-line
@@ -33,21 +27,26 @@ const AdminReaders = props => {
     return (
         <Panel id={props.id}>
             <PanelHeader left={<PanelHeaderButton onClick={props.addReaderButtonClick}>Добавить читателя</PanelHeaderButton>}>
-                Найдено читателей: {counter}
+                Список читателей
             </PanelHeader>
             <Group>
-                {loading ? <PanelSpinner height={96} size='large'/> : pageContent}
+                {loading
+                ? <PanelSpinner height={96} size='large'/>
+                : readerList
+                    ? <FilterQuery setBody={setBody}/>
+                    : <Placeholder icon={<Icon56ErrorOutline/>} header='Ошибка при получении данных'/>}
                 {readerList}
             </Group>
         </Panel>
     )
 }
 
-export const ReaderListFromCells = ({readerList, openReaderInfo}) => {
-    return (
-        readerList.map(reader => <ReaderCell key={reader.Id} reader={reader} openReaderInfo={openReaderInfo}/>)
-    )
-}
+export const ReaderListFromCells = ({readerList, openReaderInfo}) => (
+    <Group header={<Header>Найдено: {readerList.count}</Header>} mode='plain'>
+        {readerList?.data.map(reader => <ReaderCell key={reader.Id} reader={reader} openReaderInfo={openReaderInfo}/>)}
+    </Group>
+)
+
 
 const ReaderCell = ({reader, openReaderInfo}) => {
     return (

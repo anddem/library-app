@@ -3,12 +3,12 @@ import React, { useEffect, useState } from 'react';
 import FormButton from '../../../../CustomComponents/FormComponents/FormButton';
 
 function reserveBook(book, point, user, setPlaceholder) {
-    fetch(process.env.REACT_APP_API_HOST + '/issue-log', {
+    fetch(process.env.REACT_APP_API_HOST + '/library/' + point.Name + '/reserve', {
         method: 'POST',
         body: JSON.stringify({
-            book: book,
-            point: point,
-            user: user,
+            bookId: book.Id,
+            libraryPoint: point.Name,
+            readerId: user.Id,
         })
     })
     .then(response => setPlaceholder(

@@ -1,4 +1,4 @@
-import { ModalPage, ModalRoot, ModalPageHeader, SimpleCell, PanelSpinner, InfoRow, Group } from '@vkontakte/vkui'
+import { ModalPage, ModalRoot, ModalPageHeader, SimpleCell, PanelSpinner, Group } from '@vkontakte/vkui'
 import React, { useEffect, useState } from 'react'
 import UserInformationModalPage from '../../../ModalPages/UserInforamtionModal'
 import AdminAddBookModalPage from './AdminAddBookModalPage'
@@ -15,7 +15,7 @@ function fetchStat(stat_kind, set) {
 
 const Buttons = props =>  (
     <Group>
-        <SimpleCell onClick={() => {props.setList(props.minReaders); console.log(props.maxDebits)}} indicator={props.minReaders?.count}>Пункты с минимальным числом читателей</SimpleCell>
+        <SimpleCell onClick={() => props.setList(props.minReaders)} indicator={props.minReaders?.count}>Пункты с минимальным числом читателей</SimpleCell>
         <SimpleCell onClick={() => props.setList(props.maxReaders)} indicator={props.maxReaders?.count}>Пункты с максимальным числом читателей</SimpleCell>
         <SimpleCell onClick={() => props.setList(props.minDebits)} indicator={props.minDebits?.count}>Пункты с минимальным числом задолжников</SimpleCell>
         <SimpleCell onClick={() => props.setList(props.maxDebits)} indicator={props.maxDebits?.count}>Пункты с максимальным числом задолжников</SimpleCell>
@@ -31,10 +31,10 @@ const LibraryStatistics = props => {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        fetchStat('min_debit', setMinDebits)
-        fetchStat('min_reader', setMinReaders)
-        fetchStat('max_debit', setMaxDebits)
-        fetchStat('max_reader', setMaxReaders)
+        fetchStat('min_debitors', setMinDebits)
+        fetchStat('min_readers', setMinReaders)
+        fetchStat('max_debitors', setMaxDebits)
+        fetchStat('max_readers', setMaxReaders)
         setLoading(false)
     }
     , [])
@@ -42,8 +42,8 @@ const LibraryStatistics = props => {
     return (
         <ModalPage id={props.id} onClose={props.onClose}>
             <ModalPageHeader>Статистика по библиотеке</ModalPageHeader>
-            {loading ? <PanelSpinner/> : <Buttons setList={setCurrentStat} minReaders={minReaders} maxReaders={maxReaders} minDebits={minDebits} maxDebits = {maxDebits}/>}
-            {currentStat ? <Group>{currentStat.data.map(el => <SimpleCell key={el.Name} indicator={el?.Readers ?? el?.Debitors}>{el.Name}</SimpleCell>)}</Group> : null}
+            {loading ? <PanelSpinner/> : <Buttons setList={setCurrentStat} minReaders={minReaders} maxReaders={maxReaders} minDebits={minDebits} maxDebits={maxDebits}/>}
+            {currentStat ? <Group>{currentStat.data.map(el => <SimpleCell key={el.Name} disabled indicator={el?.Readers ?? el?.Debitors}>{el.Name}</SimpleCell>)}</Group> : null}
         </ModalPage>
     )
 }
