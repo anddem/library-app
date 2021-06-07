@@ -1,5 +1,5 @@
 import React from 'react';
-import { Group, SimpleCell, InfoRow } from '@vkontakte/vkui';
+import { Group, SimpleCell} from '@vkontakte/vkui';
 
 export function TimestampToDate (timestamp) {
     let date = new Date(timestamp * 1000)
@@ -8,10 +8,13 @@ export function TimestampToDate (timestamp) {
 
 const Infraction = ({ infraction, indicator }) => (
     <Group mode='card'>
-        <SimpleCell multiline disabled indicator={indicator}>
-            <InfoRow header='Нарушение' style={{ marginBottom: 10 }}>{infraction.Infraction}</InfoRow>
-            <InfoRow header='Дата выдачи'>{TimestampToDate(infraction.Issue_date)}</InfoRow>
-        </SimpleCell>
+        <Group mode='plain'>
+        <SimpleCell disabled indicator={indicator}>{infraction.Infraction}</SimpleCell>
+        <SimpleCell disabled description='Дата выдачи'>{TimestampToDate(infraction.Issue_date)}</SimpleCell>
+        <SimpleCell disabled description='Дата снятия запрета'>{infraction.End_of_ban_date ? TimestampToDate(infraction.End_of_ban_date) : 'Без запрета'}</SimpleCell>
+        <SimpleCell disabled description='Денежный штраф'>{infraction.Monetary_fine ?? 'Без штрафа'}</SimpleCell>
+
+        </Group>
     </Group>
 );
 const RenderInfractionsList = ({ list }) => (

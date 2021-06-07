@@ -15,20 +15,8 @@ const Content = props => {
         setActivePanel(e.currentTarget.dataset.panel)
     }
 
-    // function openUserInfo () {
-    //     setActiveModal('userInformation')
-    // }
-
     return (
         <SplitLayout style={{justifyContent: 'center'}}>
-            <SplitCol fixed width='250px' maxWidth='250px'>
-                <SideMenu
-                    user={props.user}
-                    activePanel={activePanel}
-                    onClick={go}
-                    onLogout={props.onLogout}
-                />
-            </SplitCol>
             <SplitCol
                 animate={false}
                 spaced={true}
@@ -36,6 +24,14 @@ const Content = props => {
                 maxWidth='900px'
             >
                 <ContentView activeModal={activeModal} setActiveModal={setActiveModal} activePanel={activePanel} activeView={activeView} user={props.user} setActivePanel={setActivePanel}/>
+            </SplitCol>
+            <SplitCol fixed width='250px' maxWidth='250px'>
+                <SideMenu
+                    user={props.user}
+                    activePanel={activePanel}
+                    onClick={go}
+                    onLogout={props.onLogout}
+                />
             </SplitCol>
         </SplitLayout>
     )

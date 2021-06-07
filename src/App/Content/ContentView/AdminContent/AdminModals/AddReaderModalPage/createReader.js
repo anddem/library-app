@@ -28,8 +28,11 @@ export const EditReaderInformationForm = ({ props, setPlaceholder }) => {
     const [department, setDepartment] = useState('');
     const [group, setGroup] = useState('');
 
+    const [login, setLogin] = useState('')
+    const [password, setPassword] = useState('')
+
     const onButtonClick = () => {
-        if (!role)
+        if (!(role && firstName && lastName))
             return;
         let body = {
             firstName: firstName,
@@ -38,12 +41,17 @@ export const EditReaderInformationForm = ({ props, setPlaceholder }) => {
             role: role,
             faculty: faculty === '' ? null : faculty,
             department: department === '' ? null : department,
-            group: group === '' ? null : group
+            group: group === '' ? null : group,
         };
+        console.log(props.onClick)
         if (props.onClick)
             props.onClick(body);
         else
+        {
+            body['login'] = login
+            body['password'] = password
             createReader(body, setPlaceholder);
+        }
     };
 
     return (
@@ -73,6 +81,24 @@ export const EditReaderInformationForm = ({ props, setPlaceholder }) => {
                 faculty={faculty} setFaculty={setFaculty}
                 department={department} setDepartment={setDepartment}
                 group={group} setGroup={setGroup} />
+            {props.onClick ? null :
+            <InputGroup
+                inputs={{
+                    'login': {
+                        'value': login,
+                        'onChange': setLogin,
+                        'placeholder': 'Логин для входа',
+                        'required': true
+                    },
+                    'password': {
+                        'value': password,
+                        'onChange': setPassword,
+                        'placeholder': 'Пароль для входа',
+                        'type': 'password',
+                        'required': true
+                    }
+                }} mode='horizontal'/>
+            }
             <FormButton stretched mode='primary' onClick={onButtonClick} size='l' text={props.text ?? 'Зарегистрировать'} />
         </FormLayout>
     );

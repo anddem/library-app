@@ -6,6 +6,7 @@ import { EditReaderInformationForm } from "../AddReaderModalPage/createReader";
 export const EditReaderInfo = ({ reader }) => {
     const [placeholder, setPlaceholder] = useState(null);
     function onClick(body) {
+        console.log(body)
         fetch(process.env.REACT_APP_API_HOST + '/readers/' + reader.Id, {
             method: "PUT",
             body: JSON.stringify(body)

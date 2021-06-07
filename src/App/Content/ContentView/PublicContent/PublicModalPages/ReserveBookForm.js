@@ -18,6 +18,12 @@ function reserveBook(book, point, user, setPlaceholder) {
 }
 
 const ReserveBookForm = ({ book, point, user, onReserveBook }) => {
+    const [readerIsBanned, setReaderIsBanned] = useState(false)
+    useEffect (() => {
+        fetch(process.env.REACT_APP_API_HOST + `/readers/${user.Id}/banned`)
+    .then(response => response.json())
+    .then(({data}) => setReaderIsBanned(data[0].reader_is_banned))
+    }, [user])
     return (
         <Group>
             <SimpleCell disabled description='Название пункта'>{point.Name}</SimpleCell>
@@ -28,11 +34,11 @@ const ReserveBookForm = ({ book, point, user, onReserveBook }) => {
                 <FormButton
                     stretched
                     mode='primary'
-                    disabled={!point.Can_issue_books || user.Role === 'Абитуриент'}
+                    disabled={!point.Can_issue_books || user.Role === 'Абитуриент' || readerIsBanned}
                     onClick={onReserveBook}
                     size='l'
                     text={point.Can_issue_books ?
-                        user.Role === 'Абитуриент' ?
+                        (user.Role === 'Абитуриент' || readerIsBanned)?
                             'Вы не можете резервировать книги' :
                             'Зарезервировать экземпляр'
                         : 'Пункт не может выдавать книги'} />

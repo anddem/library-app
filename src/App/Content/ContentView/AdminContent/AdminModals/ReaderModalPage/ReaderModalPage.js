@@ -1,4 +1,4 @@
-import { Icon20ChevronRightOutline } from '@vkontakte/icons';
+import { Icon20ChevronRightOutline, Icon20UserSlashOutline } from '@vkontakte/icons';
 import { CellButton, Group, Header, ModalPage, ModalPageHeader, PanelHeaderBack, PanelHeaderButton, PanelHeaderClose, PanelHeaderEdit, SimpleCell } from '@vkontakte/vkui';
 import React, { useState, useEffect } from 'react';
 import { EditReaderInfo } from './EditReaderInfo';
@@ -43,6 +43,7 @@ const InformationCell = (props) => (
 );
 export const ReaderRoleInformation = ({canEditInfo, reader, editReaderInfo }) => (
     <Group mode='card'>
+        {reader.Leave ? <InformationCell disabled indicator={<Icon20UserSlashOutline/>} text='Пользователь считается выбывшим'/> : null}
         <InformationCell disabled indicator={reader.Role} text='Должность' />
         <InformationCell disabled indicator={reader.Faculty} text='Факультет' />
         <InformationCell disabled indicator={reader.Department} text='Кафедра' />
